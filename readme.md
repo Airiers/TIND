@@ -96,4 +96,4 @@ times 510-($-$$) db 0
 dw 0xAA55
 ```
 
-Voilà, on a affiché la lettre "H" à l'écran. C'est bien hein... mais il nous manque 10 lettres...
+Voilà, on a affiché la lettre "H" à l'écran. C'est bien hein... mais il nous manque 10 lettres... On pourrait juste copier-coller et puis c'est fait, mais faire ça c'est pas très propre
