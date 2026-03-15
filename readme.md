@@ -41,3 +41,9 @@ Le moyen le plus rapide d'afficher des caractères sur l'écran, c'est avec le B
 En effet, le BIOS affiche à l'écran les résultats du test POST, ce qui signifie qu'il possède une fonction pour afficher du texte. Donc on peux lui demander de l'executer pour nous.
 
 Cette demande se fait via une "Interruption", qui consiste à demander au CPU de cesser ce qu'il fait, d'executer une demande prioritaire, puis de revenir à ce qu'il faisait avant.
+
+La liste de toutes les interruptions est disponible sur [Wikipédia](https://en.wikipedia.org/wiki/BIOS_interrupt_call#Interrupt_table)
+
+L'interruption `0X10` est celle qui permet de demander au CPU d'utiliser le service d'affichage vidéo du BIOS.
+
+Pour utiliser cette interruption, on va transmettre au BIOS des valeurs via les registres du CPU, des emplacements de données. Plus précisément, en stockant la valeur `0E` dans le registre `AH`. `AH` et `AL` étant les parties haute et basse du registre `AX`.
