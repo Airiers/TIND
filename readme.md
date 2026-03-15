@@ -67,4 +67,8 @@ Le CPU prends la main, regarde à quoi l'interruption correspond et donne le con
 
 Il prend donc la valeur du registre `AH`, et sait qu'on veut afficher un caractère. Il prend la valeur du registre `AL` pour savoir lequel, et il l'execute.
 
-Avant que ce soit bon, il faut une dernière chose : une boucle infinie.
+Avant que ce soit bon, il faut une dernière chose : une boucle infinie. Un bout de code que le CPU exécutera sans s'arrêter.
+
+Mais pourquoi ? Tout simplement car il ne s'arrête jamais de travailler, il veut executer des instruction non-stop. Et si il arrive à la fin des instructions de notre Bootloader, il commencera à executer les instructions qui se trouvent juste après en mémoire, sauf que ce sont des valeurs aléatoires n'ayant aucun rapport, il va donc exécuter n'importe quoi et crasher.
+
+Mais si on le bloque dans notre boucle infinie, il ne crashera pas.
