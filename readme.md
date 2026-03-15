@@ -72,3 +72,5 @@ Avant que ce soit bon, il faut une dernière chose : une boucle infinie. Un bout
 Mais pourquoi ? Tout simplement car il ne s'arrête jamais de travailler, il veut executer des instruction non-stop. Et si il arrive à la fin des instructions de notre Bootloader, il commencera à executer les instructions qui se trouvent juste après en mémoire, sauf que ce sont des valeurs aléatoires n'ayant aucun rapport, il va donc exécuter n'importe quoi et crasher.
 
 Mais si on le bloque dans notre boucle infinie, il ne crashera pas.
+
+Voilà, on a affiché la lettre "H" à l'écran. C'est bien hein... mais il nous manques 10 lettres...
