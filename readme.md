@@ -16,11 +16,13 @@ Le Bootloader est un programme chargé par le BIOS pour assurer la suite des op�
 
 ## Initialisation
 
+Ce Bootloader devra être écrit en Assembly, car c'est le langage qui se traduit le plus directement en binaire pour notre machine.
+
+Commençons par la signature, elle sera écrite en Hexadécimale
+
 ```asm
 dw 0xAA55
 ```
-
-C'est la signature binaire écrite en Hexadécimale.
 
 ```asm
 times 510-($-$$) dw 0
