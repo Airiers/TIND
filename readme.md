@@ -40,4 +40,4 @@ Le moyen le plus rapide d'afficher des caractères sur l'écran, c'est avec le B
 
 En effet, le BIOS affiche à l'écran les résultats du test POST, ce qui signifie qu'il possède une fonction pour afficher du texte. Donc on peux lui demander de l'executer pour nous.
 
-Cette demande se fait via une "Interruption"
+Cette demande se fait via une "Interruption", qui consiste à demander au CPU de cesser ce qu'il fait, d'executer une demande prioritaire, puis de revenir à ce qu'il faisait avant.
