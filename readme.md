@@ -8,11 +8,17 @@ Ce logiciel se trouve sur une puce de la carte mère, tout est déjà codé par 
 
 Une fois fait, il exécute le test POST (Power-on self-test) qui consiste à vérifier que tout fonctionne bien et à afficher les résultats sur l'écran.
 
-Si tout est OK, il va pouvoir donner les commandes à notre OS.
+Si tout est OK, il va chercher un périphérique de démarrage (disque, clé USB, etc.)
+et charger le premier secteur de celui-ci en mémoire.
+
+Ce secteur est appelé le Boot Sector et contient le Bootloader.
 
 # boot.asm
 
-Le Bootloader est un programme chargé par le BIOS pour assurer la suite des opérations. Il doit obligatoirement se trouver dans le Boot Sector, se terminer par une signature binaire spécifique et peser 512o.
+Le Bootloader est le programme chargé par le BIOS pour assurer la suite des opérations. Il doit obligatoirement se trouver dans le Boot Sector, peser exactement 512o et se terminer par une signature binaire spécifique.
+
+Le BIOS charge automatiquement ces 512 octets en mémoire à l'adresse 0x7C00,
+puis donne l'exécution au CPU à cet endroit.
 
 ## Initialisation
 
@@ -24,15 +30,15 @@ Commençons par la signature, elle sera écrite en Hexadécimale pour prendre mo
 dw 0xAA55
 ```
 
-Assurons-nous ensuite que le fichier fasse bien 512o, pour cela, on doit écrire cette instruction avant la signature :
+Assurons-nous ensuite que le fichier fasse bien 512 octets, pour cela, on doit écrire cette instruction avant la signature :
 
 ```asm
 times 510-($-$$) db 0
 ```
 
-La signature prends 2o, donc il faut remplir les 510 autres. Cette ligne calcule la taille de notre code depuis la position actuelle `($)` jusqu'à la première ligne `($$)` et remplit le reste avec des 0.
+La signature prends 2 octets, donc il faut remplir les 510 autres. Cette ligne calcule la taille de notre code depuis la position actuelle `($)` jusqu'à la première ligne `($$)` et remplit le reste avec des 0.
 
-On peux vérifier le résultat avec la commande `nasm -f bin -o boot.bin boot.asm`
+on peut vérifier le résultat avec la commande `nasm -f bin -o boot.bin boot.asm`
 
 ## Affichage d'un texte
 
@@ -40,7 +46,7 @@ Commençons par le commencement : afficher "Hello World".
 
 Le moyen le plus rapide d'afficher des caractères sur l'écran, c'est avec le BIOS.
 
-En effet, le BIOS affiche à l'écran les résultats du test POST, ce qui signifie qu'il possède une fonction pour afficher du texte. Donc on peux lui demander de l'exécuter pour nous.
+En effet, le BIOS affiche à l'écran les résultats du test POST, ce qui signifie qu'il possède une fonction pour afficher du texte. Donc on peut lui demander de l'exécuter pour nous.
 
 Cette demande se fait via une "Interruption", qui consiste à demander au CPU de cesser ce qu'il fait, d'exécuter une demande prioritaire, puis de revenir à ce qu'il faisait avant.
 
@@ -90,4 +96,4 @@ times 510-($-$$) db 0
 dw 0xAA55
 ```
 
-Voilà, on a affiché la lettre "H" à l'écran. C'est bien hein... mais il nous manques 10 lettres...
+Voilà, on a affiché la lettre "H" à l'écran. C'est bien hein... mais il nous manque 10 lettres...
