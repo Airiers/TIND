@@ -2,13 +2,17 @@
 
 # BIOS
 
-Quand on allume un ordinateur, le premier programme lancé est le BIOS (**B**asic **I**nput **O**utput **S**ystem) ou UEFI (**U**nified **E**xtensible **F**irmware **I**nterface) sur les machines modernes, mais concentrons-nous sur le BIOS.
+Quand on allume un ordinateur, le premier programme lancé est le BIOS (Basic Input Output System) ou UEFI (Unified Extensible Firmware Interface) sur les machines modernes, mais concentrons-nous sur le BIOS.
 
 Ce logiciel se trouve sur une puce de la carte mère, tout est déjà codé par son fabriquant. Le BIOS va se charger d'identifier et de configurer le matériel de l'ordinateur.
 
+Une fois fait, il execute le test POST (Power-on self-test) qui consiste à vérifier que tout fonctionne bien et à afficher les résultats sur l'écran.
+
+Si tout est OK, il va pouvoir donner les commandes à notre OS.
+
 # boot.asm
 
-Le Bootloader est un programme chargé par le BIOS au démarrage, il doit obligatoirement se trouver dans le Boot Sector, se terminer par une signature binaire spécifique et peser 512o.
+Le Bootloader est un programme chargé par le BIOS pour assurer la suite des opérations. Il doit obligatoirement se trouver dans le Boot Sector, se terminer par une signature binaire spécifique et peser 512o.
 
 ## Initialisation
 
