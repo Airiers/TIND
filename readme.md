@@ -1,4 +1,4 @@
-<center><h1 align="center">TIND : Comment que ça marche ?</h1></center>
+<center><h1 align="center">TIND : Comment que ça marche ?</h1><h2 align="center">TIND project : "TINDS is not DOS"</h2></center>
 
 # BIOS
 
@@ -36,6 +36,8 @@ On peux vérifier le résultat avec la commande `nasm -f bin -o boot.bin boot.as
 
 ## Affichage d'un texte
 
+Commençons par le commencement : afficher "Hello World".
+
 Le moyen le plus rapide d'afficher des caractères sur l'écran, c'est avec le BIOS.
 
 En effet, le BIOS affiche à l'écran les résultats du test POST, ce qui signifie qu'il possède une fonction pour afficher du texte. Donc on peux lui demander de l'executer pour nous.
@@ -46,4 +48,23 @@ La liste de toutes les interruptions est disponible sur [Wikipédia](https://en.
 
 L'interruption `0X10` est celle qui permet de demander au CPU d'utiliser le service d'affichage vidéo du BIOS.
 
-Pour utiliser cette interruption, on va transmettre au BIOS des valeurs via les registres du CPU, des emplacements de données. Plus précisément, en stockant la valeur `0E` dans le registre `AH`. `AH` et `AL` étant les parties haute et basse du registre `AX`.
+Pour utiliser cette interruption, on va transmettre au BIOS des valeurs via les registres du CPU, des emplacements de données. Plus précisément, en stockant la valeur `0E` dans le registre `AH`, on demande à afficher un caractère à l'écran. Et dans le registre `Al` c'est le caractère à afficher, ici "H". `AH` et `AL` étant les parties haute et basse du registre `AX`.
+
+On donne donc nos variables en modifiant les valeurs des registres du CPU :
+
+```asm
+mov ah, 0x0E
+mov al, 'H'
+```
+
+Puis on appelle l'interruption :
+
+```asm
+int 0x10
+```
+
+Le CPU prends la main, regarde à quoi l'interruption correspond et donne le controle au BIOS qui s'occupe ensuite de regarder quelle fonction on souhaite utiliser.
+
+Il prend donc la valeur du registre `AH`, et sait qu'on veut afficher un caractère. Il prend la valeur du registre `AL` pour savoir lequel, et il l'execute.
+
+Avant que ce soit bon, il faut une dernière chose : une boucle infinie.
