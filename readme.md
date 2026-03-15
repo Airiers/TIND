@@ -18,14 +18,16 @@ Le Bootloader est un programme chargé par le BIOS pour assurer la suite des op�
 
 Ce Bootloader devra être écrit en Assembly, car c'est le langage qui se traduit le plus directement en binaire pour notre machine.
 
-Commençons par la signature, elle sera écrite en Hexadécimale
+Commençons par la signature, elle sera écrite en Hexadécimale pour prendre moins de place :
 
 ```asm
 dw 0xAA55
 ```
 
+Assurons-nous ensuite que le fichier fasse bien 512o, pour cela, on dois écrire cette instruction :
+
 ```asm
-times 510-($-$$) dw 0
+times 510-($-$$) db 0
 ```
 
 La signature prends 2o, donc il faut remplir les 510 autres. Cette ligne calcule la taille de notre code depuis la position actuelle `($)` jusqu'à la première ligne `($$)` et remplit le reste avec des 0.
@@ -35,3 +37,7 @@ On peux vérifier le résultat avec la commande `nasm -f bin -o boot.bin boot.as
 ## Affichage d'un texte
 
 Le moyen le plus rapide d'afficher des caractères sur l'écran, c'est avec le BIOS.
+
+En effet, le BIOS affiche à l'écran les résultats du test POST, ce qui signifie qu'il possède une fonction pour afficher du texte. Donc on peux lui demander de l'executer pour nous.
+
+Cette demande se fait via une "Interruption"
