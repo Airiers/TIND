@@ -257,4 +257,4 @@ Sauf que cette histoire de segmentation... ce n'est plus utilisé de nos jours, 
 
 Mais malgré tout on doit définir une GDT, c'est obligatoire. Encore une histoire de rétrocompatibilité.
 
-On va donc créer une GDT avec... aucune segmentations. C'est ce qu'on appelle le `Basic Flat Model`
+On va donc créer une GDT avec... aucune segmentations. C'est ce qu'on appelle le `Basic Flat Model`, qui consiste à ajouter 3 entrées dans la table GDT, les trois entrées obligatoires.
