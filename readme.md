@@ -43,9 +43,9 @@ Ce secteur est appelé le Boot Sector et contient le Bootloader.
 
 # boot.asm
 
-Le Bootloader est le programme chargé par le BIOS pour assurer la suite des opérations. Il doit obligatoirement se trouver dans le Boot Sector, peser exactement 512o et se terminer par une signature binaire spécifique.
+Le Bootloader est le programme chargé par le BIOS à l'emplacement mémoire pour assurer la suite des opérations. Il doit obligatoirement se trouver dans le Boot Sector, peser exactement 512o et se terminer par une signature binaire spécifique.
 
-Le BIOS charge automatiquement ces 512 octets en mémoire à l'adresse 0x7C00,
+Le BIOS charge automatiquement ces 512 octets en mémoire à l'adresse `0x7C00`,
 puis donne l'exécution au CPU à cet endroit.
 
 ## Initialisation
@@ -132,9 +132,10 @@ Voilà, on a affiché la lettre "H" à l'écran. C'est bien hein... mais il nous
 
 Pour afficher plusieurs caractères, on va utiliser le même système d'interruptions, mais dans une boucle, pour ne pas se répéter.
 
-On va commencer par indiquer à l'ordinateur qu'on veut utiliser `bx` pour stocker l'adresse de `string` :
+On va commencer par indiquer à l'ordinateur qu'on veut utiliser `bx` pour stocker l'adresse de `string`; en exécutant à partir de l'emplacement mémoire `0x7C00` :
 
 ```asm
+[org 0x7C00]
 mov bx, string
 ```
 
@@ -200,8 +201,8 @@ Et on oublie pas de bien définir la fonction `done`, qui retourne et met fin au
 Nous avons donc un code complet qui ressemble à ça :
 
 ```asm
+[org 0x7C00]
 mov bx, string
-call print_string
 
 print_string:
     mov al, [bx]
@@ -215,8 +216,25 @@ done :
     ret
 
 string db "Hello World", 0
+
 hang:
     jmp hang
 times 510-($-$$) db 0
 dw 0xAA55
 ```
+
+Et voilà nous y sommes, _"Hello World"_ affiché fièrement sur notre fenêtre, en blanc sur fond noir.
+
+# Mode protégé
+
+Avant de booter notre OS, on doit d'abord passer en `mode protégé`.
+
+En effet les fabricants de CPU sont obsédé par la rétrocompatibilité, ils veulent qu'un vieil OS préhistorique puisse tourner sans bug sur leur CPU dernier cri.
+
+Pour faire ça, il faut émuler un vieux CPU. Donc quand on boot, notre CPU se comporte comme si il datait de 1978, c'est ce qu'on appelle le `mode réel` dans lequel on a par exemple moins d'1 mégaoctet de RAM disponible.
+
+C'est pour ça qu'on doit nous même avancer le temps, en passant en `mode protégé`, amplement suffisant pour nous, car on a accès jusqu'à 4 gigaoctets de RAM.
+
+Ce mode protégé nous permettra aussi, comme son nom l'indique, et protéger notre OS. Parce qu'en mode réel, il n'y a aucunes protections, n'importe quel logiciel peut faire tout ce qu'il veut.
+
+Avec le mode protégé, on va pouvoir restreindre les applications extérieures, avec différents niveaux de privilèges appelées "rings"
