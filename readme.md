@@ -1,4 +1,10 @@
-<center><h1 align="center">TIND : Comment que ça marche ?</h1><h2 align="center">TIND project : "TINDS is not DOS"</h2></center>
+<center><h1 align="center">TIND : Comment ça marche ?</h1><h2 align="center">TIND project : "TINDS is not DOS"</h2></center>
+
+# Introduction
+
+La réalisation d'un système d'exploitation est une tâche complexe, et nécessite d'être familier aux concepts informatiques tels que :
+
+- La gestion de la mémoire via des registres CPU
 
 # BIOS
 
@@ -113,3 +119,5 @@ mov bx, string
 ```asm
 string db "Hello World", 0
 ```
+
+> _💡 **Pour rappel :** `db` (define byte) définit une expression d'un octet_
