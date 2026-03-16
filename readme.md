@@ -237,4 +237,24 @@ C'est pour ça qu'on doit nous même avancer le temps, en passant en `mode prot�
 
 Ce mode protégé nous permettra aussi, comme son nom l'indique, et protéger notre OS. Parce qu'en mode réel, il n'y a aucunes protections, n'importe quel logiciel peut faire tout ce qu'il veut.
 
-Avec le mode protégé, on va pouvoir restreindre les applications extérieures, avec différents niveaux de privilèges appelées "rings"
+Avec le mode protégé, on va pouvoir restreindre les applications extérieures, avec différents niveaux de privilèges appelées "rings".
+
+La ring 0 est celle qu'utilisera notre OS et qui aura le plus de libertés, aucunes restrictions. Une application lambda sera de ring 3 avec très peu d'accès et si elle a besoin d'accéder à une ressource protégée, elle sera obligée de demander l'autorisation à l'OS.
+
+On doit donc mettre en place des règles. Et c'est règles, c'est à nous de les définir pour les donner au CPU, avec la `GDT` (Global Description Table). Comme son nom l'indique, il s'agit d'une table qui va nous permettre de définir différents segments au sein de notre mémoire.
+
+Chaque entrée de la table définit un de ses segments, comme l'adresse du début du segment, sa taille, puis certaines propriétés qu'on va lui donner comme si cette fonction peut être lue, modifiée, exécutée, quel niveau de privilèges...
+
+| N°  | Début  | Taille |                                                                         Propriétés                                                                         |
+| :-: | :----: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|  1  | 0x8000 | 0x1000 | Peut être <span style="color:green">**lue**</span>, <span style="color:red">**modifiée**</span>, <span style="color:green">**exécutée**</span>, **Ring 0** |
+|  2  | 0x9000 | 0x2000 |   Peut être <span style="color:red">**lue**</span>, <span style="color:red">**modifiée**</span>, <span style="color:red">**exécutée**</span>, **Ring 3**   |
+|  3  | 0xB000 | 0x5000 | Peut être <span style="color:green">**lue**</span>, <span style="color:green">**modifiée**</span>, <span style="color:red">**exécutée**</span>, **Ring 1** |
+
+Et comme ça, tout est sécurisé.
+
+Sauf que cette histoire de segmentation... ce n'est plus utilisé de nos jours, maintenant on fait du `paging`.
+
+Mais malgré tout on doit définir une GDT, c'est obligatoire. Encore une histoire de rétrocompatibilité.
+
+On va donc créer une GDT avec... aucune segmentations. C'est ce qu'on appelle le `Basic Flat Model`
