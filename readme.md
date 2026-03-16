@@ -1,4 +1,4 @@
-<center><h1 align="center">TIND : Comment ça marche ?</h1><h2 align="center">TIND project : "TINDS is not DOS"</h2></center>
+<center><h1 align="center">TIND : Comment ça marche ?</h1><h3 align="center">TIND project : "TINDS is not DOS"</h3></center>
 
 # Introduction
 
