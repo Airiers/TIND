@@ -40,7 +40,7 @@ La signature prends 2 octets, donc il faut remplir les 510 autres. Cette ligne c
 
 on peut vérifier le résultat avec la commande `nasm -f bin -o boot.bin boot.asm`
 
-## Affichage d'un texte
+## Affichage de caractères
 
 Commençons par le commencement : afficher "Hello World".
 
@@ -96,4 +96,20 @@ times 510-($-$$) db 0
 dw 0xAA55
 ```
 
-Voilà, on a affiché la lettre "H" à l'écran. C'est bien hein... mais il nous manque 10 lettres... On pourrait juste copier-coller et puis c'est fait, mais faire ça c'est pas très propre.
+Voilà, on a affiché la lettre "H" à l'écran. C'est bien hein... mais il nous manque 10 lettres... On pourrait juste copier-coller et puis c'est fait, mais faire ça c'est pas très propre. on préférera une autre méthode.
+
+## Affichage de string complet
+
+Pour afficher plusieurs caractères, on va utiliser le même système d'interruptions, mais dans une boucle, pour ne pas se répéter.
+
+On va commencer par indiquer à l'ordinateur qu'on veut utiliser `bx` pour stocker l'adresse de `string`.
+
+```asm
+mov bx, string
+```
+
+`string` qui contiendra une suite d'éléments d'1 octet dans la mémoire.
+
+```asm
+string db "Hello World", 0
+```
